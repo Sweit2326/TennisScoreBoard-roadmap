@@ -1,0 +1,13 @@
+INSERT INTO Players (Name, ID) VALUES ('Vadim Arch', default);
+INSERT INTO Players (Name, ID) VALUES ('Malcev Manjaro', default);
+INSERT INTO Players (Name, ID) VALUES ('Prince Max', default);
+INSERT INTO Players (Name, ID) VALUES ('Belle Daria', default);
+INSERT INTO Players (Name, ID) VALUES ('Doryoku Mirai', default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (1, 2, 2, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (3, 4, 4, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (5, 2, 5, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (3, 5, 3, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (1, 4, 1, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (4, 1, 4, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (5, 3, 3, default);
+INSERT INTO Matches (Player1, Player2, Winner, ID) VALUES (4, 2, 4, default);
