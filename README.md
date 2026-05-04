@@ -22,4 +22,3 @@
 - [Техническое задание проекта](https://zhukovsd.github.io/java-backend-learning-course/projects/tennis-scoreboard/)
 - [Готовые HTML/CSS макеты](https://github.com/zhukovsd/tennis-scoreboard-html-layouts)
 - [Правила тенниса](https://www.gotennis.ru/read/world_of_tennis/pravila.html)
-- [Чат сообщества](https://t.me/zhukovsd_it_chat)
