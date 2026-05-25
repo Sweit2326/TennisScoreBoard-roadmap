@@ -1,6 +1,6 @@
 ## 🎾 Табло теннисного матча
 
-Веб-приложение для подсчёта очков в теннисном матче с веб-интерфейсом на Java (Servlets, JSP, Hibernate, H2). Проект выполнен в рамках [Java Backend Learning Course](https://zhukovsd.github.io/java-backend-learning-course/) Сергея Жукова.
+Веб-приложение для подсчёта очков в теннисном матче с веб-интерфейсом на Java (Servlets, JSP, Hibernate, H2). Проект выполнен в рамках [Java Backend Roadmap](https://zhukovsd.github.io/java-backend-learning-course/) Сергея Жукова.
 
 ### ⚡ Функционал приложения
 - **Создание нового матча** – ввод имён двух уникальных игроков (игрок не может играть сам с собой).
