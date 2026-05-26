@@ -1,6 +1,7 @@
 package com.roadmap.fourth.servlet;
 
 import com.roadmap.fourth.MatchScoreController;
+import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
 import com.roadmap.fourth.model.Page;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,23 +15,41 @@ public class PaginationServlet extends HttpServlet {
     private final MatchScoreController MATCH_SCORE_CONTROLLER = new MatchScoreController();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String pageNumParam = req.getParameter("page");
         String playerName = req.getParameter("filter_by_player_name");
         Page currentPage;
-        int pageNum = 1;
+        int pageNum = 1; // изначально наша страница = 1 (это сделано чтобы в случае ошибки просто не менять её параметр)
 
         if (pageNumParam != null && !pageNumParam.isEmpty()) {
-            pageNum = Integer.parseInt(pageNumParam);
+            boolean isContainsLetter = false;
+            for (char c : pageNumParam.toCharArray()) {
+                if (Character.isLetter(c)) {
+                    isContainsLetter = true;
+                    break;
+                }
+            }
+            if (!isContainsLetter) {
+                int parsedPageNum = Integer.parseInt(pageNumParam);
+                if (parsedPageNum > 0) {
+                    pageNum = parsedPageNum;
+                }
+            }
         }
+
         if (playerName != null && !playerName.trim().isEmpty()) {
             currentPage = MATCH_SCORE_CONTROLLER.getMatchesByPlayerName(pageNum, playerName);
         } else currentPage = MATCH_SCORE_CONTROLLER.getMatchesByPage(pageNum);
-        req.setAttribute("page", currentPage);
-        req.getRequestDispatcher("/matches.jsp").forward(req, resp);
+
+        try {
+            req.setAttribute("page", currentPage);
+            req.getRequestDispatcher("/matches.jsp").forward(req, resp);
+        } catch (ServletException e) {
+            throw new INTERNAL_SERVER_ERROR("Failed to load matches page");
+        }
     }
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String servletPath = req.getServletPath();
 
         if (servletPath.equals("/matches")) {
