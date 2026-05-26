@@ -1,12 +1,11 @@
 package com.roadmap.fourth.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -18,6 +17,8 @@ public class Player {
     @Column(name = "ID")
     private int id;
 
+    @Getter
+    @Setter
     @Column(name = "Name", nullable = false, length = 100)
     private String name;
 }

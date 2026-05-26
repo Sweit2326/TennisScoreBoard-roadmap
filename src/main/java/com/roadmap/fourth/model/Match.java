@@ -1,12 +1,15 @@
 package com.roadmap.fourth.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+// @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "Matches")
 
@@ -16,14 +19,20 @@ public class Match {
     @Column(name = "ID")
     private int id;
 
+    @Getter
+    @Setter
     @ManyToOne
     @JoinColumn(name = "Player1", referencedColumnName = "id", nullable = false)
     private Player player1;
 
+    @Getter
+    @Setter
     @ManyToOne
     @JoinColumn(name = "Player2", referencedColumnName = "id", nullable = false)
     private Player player2;
 
+    @Getter
+    @Setter
     @ManyToOne
     @JoinColumn(name = "Winner", referencedColumnName = "id", nullable = false)
     private Player winner;
