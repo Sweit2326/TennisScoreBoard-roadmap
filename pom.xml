@@ -7,6 +7,7 @@
     <groupId>com.roadmap.fourth</groupId>
     <artifactId>TennisScoreBoard-roadmap</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
