@@ -1,11 +1,11 @@
 package com.roadmap.fourth.util;
 
+import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
 import com.roadmap.fourth.model.Match;
 import com.roadmap.fourth.model.Player;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
-import javax.swing.*;
 
 public class HibernateUtil {
     private static final SessionFactory SESSION_FACTORY = SessionFactoryInit();
@@ -18,9 +18,8 @@ public class HibernateUtil {
                     .configure()
                     .buildSessionFactory();
             return sessionFactory;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (HibernateException e) {
+            throw new INTERNAL_SERVER_ERROR("Произошла ошибка во время взаимодействия с базой данных.");
         }
     }
 

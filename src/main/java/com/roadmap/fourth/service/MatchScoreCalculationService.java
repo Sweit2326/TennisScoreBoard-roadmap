@@ -1,5 +1,6 @@
 package com.roadmap.fourth.service;
 
+import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
 import com.roadmap.fourth.model.MatchScore;
 
 import java.util.UUID;
@@ -59,7 +60,7 @@ public class MatchScoreCalculationService {
                 handleDeucePoint(playerPoints, opponentPoints);
                 break;
             default:
-                System.out.println("Something strange happened.");
+                throw new INTERNAL_SERVER_ERROR("Score calculation service got invalid player points amount!");
         }
 
 
