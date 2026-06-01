@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Players")
+@Table(
+        name = "Players",
+        indexes = @Index(columnList = "name")
+)
 
 public class Player {
     @Id
@@ -19,7 +22,7 @@ public class Player {
 
     @Getter
     @Setter
-    @Column(name = "Name", nullable = false, length = 100)
+    @Column(name = "Name", unique = true, nullable = false, length = 50)
     private String name;
 }
 
