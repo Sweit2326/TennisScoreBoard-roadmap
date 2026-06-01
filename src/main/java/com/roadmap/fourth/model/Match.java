@@ -6,12 +6,16 @@ import lombok.Setter;
 import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
+import org.hibernate.annotations.DialectOverride;
 
 @NoArgsConstructor
 @AllArgsConstructor
-// @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "Matches")
+@Table(
+        name = "Matches",
+        check = @CheckConstraint(constraint = "(player1 <> player2) AND (winner IN (player1, player2))")
+)
 
 public class Match {
     @Id
