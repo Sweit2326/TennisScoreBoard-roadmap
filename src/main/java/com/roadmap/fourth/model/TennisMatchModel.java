@@ -8,16 +8,16 @@ public class TennisMatchModel {
     @Getter
     private final UUID MATCH_UUID;
     private final String[] PLAYERS;
-    private MatchScoreModel currentMatch;
+    private MatchScoreModel matchScore;
 
     public TennisMatchModel(String stPlayer, String ndPlayer, UUID uuid) {
         this.MATCH_UUID = uuid;
         this.PLAYERS = new String[]{stPlayer, ndPlayer};
-        this.currentMatch = new MatchScoreModel();
+        this.matchScore = new MatchScoreModel();
     }
 
-    public MatchScoreDTO getMatchScoreDTO() {
-        return currentMatch.buildMatchDTO();
+    public MatchScoreDTO buildMatchScoreDTO() {
+        return matchScore.buildMatchDTO(PLAYERS, MATCH_UUID);
     }
 
     public boolean pointWonBy(int id) {
@@ -25,7 +25,7 @@ public class TennisMatchModel {
         if (id == opponentId) {
             opponentId = 1;
         }
-        return currentMatch.awardPointTo(id, opponentId);
+        return matchScore.awardPointTo(id, opponentId);
     }
 
     public String getPlayerName(int id) {
