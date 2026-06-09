@@ -2,6 +2,8 @@ package com.roadmap.fourth.model;
 
 import com.roadmap.fourth.dto.MatchScoreDTO;
 
+import java.util.UUID;
+
 public class MatchScoreModel {
     private int[] setScore;
     private SetModel currentSet;
@@ -23,11 +25,11 @@ public class MatchScoreModel {
         } else return false;
     }
 
-    public MatchScoreDTO buildMatchDTO() {
+    public MatchScoreDTO buildMatchDTO(String[] players, UUID uuid) {
         if (setScore[0] == 3 || setScore[1] == 3) {
-            return new MatchScoreDTO(setScore);
+            return new MatchScoreDTO(setScore, players, uuid);
         } else {
-            return new MatchScoreDTO(setScore, currentSet.getCurrentGameScore(), currentSet.getCurrentGamePoints());
+            return new MatchScoreDTO(setScore, currentSet.getCurrentGameScore(), currentSet.getCurrentGamePoints(), players, uuid);
         }
      }
 }
