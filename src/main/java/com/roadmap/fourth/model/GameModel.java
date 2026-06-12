@@ -15,11 +15,11 @@ public class GameModel {
 
     public boolean awardGameScoreTo(int id, int opponentId) {
         switch (points[id]) {
-            case ZERO: points[id] = PointScore.FIFTEEN;
-            case FIFTEEN: points[id] = PointScore.THIRTY;
-            case THIRTY: points[id] = PointScore.FOURTY;
+            case ZERO: points[id] = PointScore.FIFTEEN; return false;
+            case FIFTEEN: points[id] = PointScore.THIRTY; return false;
+            case THIRTY: points[id] = PointScore.FOURTY; return false;
             case FOURTY, ADVANTAGE:
-                if (points[opponentId] == PointScore.FOURTY) {
+                if (points[opponentId] == PointScore.FOURTY || points[opponentId] == PointScore.ADVANTAGE) {
                     return handleDeuceScore(id, opponentId);
                 } else return true;
             default:
