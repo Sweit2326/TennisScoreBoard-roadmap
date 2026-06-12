@@ -1,10 +1,10 @@
 package com.roadmap.fourth.servlet;
 
 import com.roadmap.fourth.MatchScoreController;
+import com.roadmap.fourth.dto.MatchScoreDTO;
 import com.roadmap.fourth.exception.BAD_REQUEST;
 import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
-import com.roadmap.fourth.model.MatchScore;
-import com.roadmap.fourth.service.OnGoingMatchesService;
+import com.roadmap.fourth.model.MatchScoreModel;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,11 +20,12 @@ public class MatchScoreServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        MatchScore currentMatch = MATCH_SCORE_CONTROLLER.getMatchByUUID(req.getParameter("uuid"));
+        MatchScoreDTO matchDTO = MATCH_SCORE_CONTROLLER.getMatchDTO(req.getParameter("uuid"));
         try {
-            req.setAttribute("match", currentMatch);
+            req.setAttribute("match", matchDTO);
             req.getRequestDispatcher("/match-score.jsp").forward(req, resp);
         } catch (ServletException e) {
+            e.printStackTrace();
             throw new INTERNAL_SERVER_ERROR("Failed to load match page");
         }
     }
@@ -36,15 +37,15 @@ public class MatchScoreServlet extends HttpServlet {
             try {
                 final String stPlayerName = req.getParameter("stPl");
                 final String ndPlayerName = req.getParameter("ndPl");
-                MatchScore newMatch = MATCH_SCORE_CONTROLLER.createNewMatch(stPlayerName, ndPlayerName);
+                MatchScoreDTO newMatch = MATCH_SCORE_CONTROLLER.processMatchCreation(stPlayerName, ndPlayerName);
                 resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + newMatch.getMatchUUID());
             } catch (BAD_REQUEST e) {
                 req.setAttribute("errorMessage", e.getMessage());
                 req.getRequestDispatcher("/new-match.jsp").forward(req, resp);
             }
         } else if (servletPath.equals("/match-score")) {
-            final int playerId = Integer.parseInt(req.getParameter("playerID"));
-            final UUID matchUUID = UUID.fromString(req.getParameter("matchUUID"));
+            final String playerId = req.getParameter("playerID");
+            final String matchUUID = req.getParameter("matchUUID");
             MATCH_SCORE_CONTROLLER.updateMatchScore(matchUUID, playerId);
             resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchUUID);
         }
