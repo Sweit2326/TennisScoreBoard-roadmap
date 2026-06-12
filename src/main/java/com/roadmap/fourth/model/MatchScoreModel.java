@@ -26,11 +26,13 @@ public class MatchScoreModel {
     }
 
     public MatchScoreDTO buildMatchDTO(String[] players, UUID uuid) {
-        if (setScore[0] == 3 || setScore[1] == 3) {
-            return new MatchScoreDTO(setScore, players, uuid);
-        } else {
-            return new MatchScoreDTO(setScore, currentSet.getCurrentGameScore(), currentSet.getCurrentGamePoints(), players, uuid);
-        }
+        int winnerIndex = (setScore[0] == 3) ? 0 : (setScore[1] == 3) ? 1 : -1;
+
+        return switch (winnerIndex) {
+            case 0 -> new MatchScoreDTO(setScore, players, players[0], uuid);
+            case 1 -> new MatchScoreDTO(setScore, players, players[1], uuid);
+            default -> new MatchScoreDTO(setScore, currentSet.getCurrentGameScore(), currentSet.getCurrentGamePoints(), players, uuid);
+        };
      }
 }
 
