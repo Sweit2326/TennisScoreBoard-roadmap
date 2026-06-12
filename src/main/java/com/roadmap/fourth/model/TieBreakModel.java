@@ -9,12 +9,16 @@ public class TieBreakModel {
 
     public boolean awardTieBreakPointTo(int id) {
         return switch (tieBreakPoints[id]) {
-            case 0, 1, 2, 3, 4, 5, 6 -> {
+            case 0, 1, 2, 3, 4, 5 -> {
                 tieBreakPoints[id]++;
                 yield false;
             }
-            case 7 -> true;
+            case 6 -> true;
             default -> false;
         };
+    }
+
+    public String[] getTieBreakPoints() {
+        return new String[]{String.valueOf(tieBreakPoints[0]), String.valueOf(tieBreakPoints[1])};
     }
 }
