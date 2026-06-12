@@ -10,6 +10,8 @@ public class MatchScoreDTO {
     private String[] points;
     private String[] players;
     @Getter
+    private String winner;
+    @Getter
     private final UUID matchUUID;
 
     public MatchScoreDTO(int[] sets, int[] games, String[] points, String[] players, UUID uuid) {
@@ -19,9 +21,10 @@ public class MatchScoreDTO {
         this.players = players;
         this.matchUUID = uuid;
     }
-    public MatchScoreDTO(int[] sets, String[] players, UUID uuid) {
+    public MatchScoreDTO(int[] sets, String[] players, String winner, UUID uuid) {
         this.sets = sets;
         this.players = players;
+        this.winner = winner;
         this.matchUUID = uuid;
     }
 
