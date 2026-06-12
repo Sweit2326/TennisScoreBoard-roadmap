@@ -1,5 +1,6 @@
 package com.roadmap.fourth;
 
+import com.roadmap.fourth.exception.BAD_REQUEST;
 import com.roadmap.fourth.exception.NOT_FOUND;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -24,6 +25,7 @@ public class ErrorFilter implements Filter {
 
             switch (exception.getClass().getSimpleName()) {
                 case "NOT_FOUND": httpStatus = 404; break;
+                case "BAD_REQUEST": httpStatus = 400; break;
                 case "INTERNAL_SERVER_ERROR": httpStatus = 500; break;
             }
 
