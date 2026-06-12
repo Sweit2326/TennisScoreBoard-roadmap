@@ -19,7 +19,7 @@ public class HibernateUtil {
                     .buildSessionFactory();
             return sessionFactory;
         } catch (HibernateException e) {
-            throw new INTERNAL_SERVER_ERROR("Произошла ошибка во время взаимодействия с базой данных.");
+            throw new INTERNAL_SERVER_ERROR("Error happened while building SessionFactory.");
         }
     }
 
