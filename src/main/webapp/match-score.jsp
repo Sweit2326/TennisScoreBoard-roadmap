@@ -51,12 +51,12 @@
                     <td class="table-text">${match.getPlayerName(0)}</td>
                     <td class="table-text">${match.getSets(0)}</td>
                     <td class="table-text">${match.getGames(0)}</td>
-                    <td class="table-text">${match.getPointsValue(0)}</td>
+                    <td class="table-text">${match.getPoints(0)}</td>
                     <td class="table-text">
                         <form method="post" action="match-score">
                             <input type="hidden" name="playerID" value="0">
                             <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
-                            <div class="score-btn" style="display: ${match.isMatchFinished() ? 'none' : 'block'};" onclick="this.closest('form').submit()">Score</div>
+                            <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
                         </form>
                     </td>
                 </tr>
@@ -64,12 +64,12 @@
                     <td class="table-text">${match.getPlayerName(1)}</td>
                     <td class="table-text">${match.getSets(1)}</td>
                     <td class="table-text">${match.getGames(1)}</td>
-                    <td class="table-text">${match.getPointsValue(1)}</td>
+                    <td class="table-text">${match.getPoints(1)}</td>
                     <td class="table-text">
                         <form method="post" action="match-score">
                             <input type="hidden" name="playerID" value="1">
                             <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
-                            <div class="score-btn" style="display: ${match.isMatchFinished() ? 'none' : 'block'};" onclick="this.closest('form').submit()">Score</div>
+                            <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
                         </form>
                     </td>
                 </tr>
