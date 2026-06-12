@@ -16,22 +16,25 @@ public class SetModel {
     public boolean awardGamePointTo(int id, int opponentId) {
         boolean isGameFinished = isTieBreak ? currentTieBreakGame.awardTieBreakPointTo(id) : currentGame.awardGameScoreTo(id, opponentId);
 
-        if ((isGameFinished && !isTieBreak && gameScore[id] == 7) || (isGameFinished && isTieBreak)) {
+        if ((isGameFinished && !isTieBreak && gameScore[id] == 6) || (isGameFinished && isTieBreak)) {
             return true;
-        } else {
+        } else if (isGameFinished) {
             gameScore[id]++;
-            if (isGameFinished && gameScore[id] == 6 && gameScore[opponentId] == 6) {
-                currentGame = null;
+            if (gameScore[id] == 6 && gameScore[opponentId] == 6) {
                 currentTieBreakGame = new TieBreakModel();
-            }
+                isTieBreak = true;
+            } else currentGame = new GameModel();
             return false;
         }
+        return false;
     }
 
     public int[] getCurrentGameScore() {
         return gameScore;
     }
     public String[] getCurrentGamePoints() {
-        return currentGame.getGamePoints();
+        if (isTieBreak) {
+            return currentTieBreakGame.getTieBreakPoints();
+        } else return currentGame.getGamePoints();
     }
 }
