@@ -1,36 +1,52 @@
 package com.roadmap.fourth;
 
-import com.roadmap.fourth.model.MatchScore;
+import com.roadmap.fourth.dto.MatchScoreDTO;
+import com.roadmap.fourth.exception.BAD_REQUEST;
+import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
 import com.roadmap.fourth.model.Page;
 import com.roadmap.fourth.service.*;
 import java.util.UUID;
 
 public class MatchScoreController {
-    private final OnGoingMatchesService ON_GOING_MATCHES_SERVICE = new OnGoingMatchesService();
     private final FinishedMatchesPersistenceService FINISHED_MATCHES_PERSISTENCE_SERVICE = new FinishedMatchesPersistenceService();
 
-    public MatchScore createNewMatch(String stPlayerName, String ndPlayerName) {
-        UUID matchUUID = ON_GOING_MATCHES_SERVICE.createMatchUUID(stPlayerName, ndPlayerName);
-        return ON_GOING_MATCHES_SERVICE.getMatch(matchUUID);
+    public MatchScoreDTO processMatchCreation(String stPlayerName, String ndPlayerName) {
+        final NewMatchService NEW_MATCH_SERVICE = new NewMatchService();
+        return NEW_MATCH_SERVICE.createNewMatch(stPlayerName, ndPlayerName);
     }
-    public void updateMatchScore(UUID matchUUID, int playerId) {
-        MatchScoreCalculationService mSCS = new MatchScoreCalculationService();
-        MatchScore currentMatch = ON_GOING_MATCHES_SERVICE.getMatch(matchUUID);
-        MatchScore updatedMatch = mSCS.pointWonBy(currentMatch, playerId);
-        ON_GOING_MATCHES_SERVICE.setMatch(matchUUID, updatedMatch);
-    }
-    public MatchScore getMatchByUUID(String uuid) {
-        MatchScore match = ON_GOING_MATCHES_SERVICE.getMatch(UUID.fromString(uuid));
-        if (match.isMatchFinished()) {
-            ON_GOING_MATCHES_SERVICE.removeMatch(match.getMatchUUID());
-            FINISHED_MATCHES_PERSISTENCE_SERVICE.postFinishedMatch(match);
+    public MatchScoreDTO getMatchDTO(String uuid) {
+        final OnGoingMatchesService ON_GOING_MATCHES_SERVICE = new OnGoingMatchesService();
+        try {
+            return ON_GOING_MATCHES_SERVICE.getMatchByUUID(UUID.fromString(uuid)).buildMatchScoreDTO();
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new BAD_REQUEST("Invalid request format");
         }
-        return match;
     }
+
+    public void updateMatchScore(String uuid, String id) {
+        final MatchScoreCalculationService MATCH_SCORE_CALCULATION_SERVICE = new MatchScoreCalculationService();
+        final int playerId;
+        final UUID matchUUID;
+
+        try {
+            playerId = Integer.parseInt(id);
+        } catch (NumberFormatException | NullPointerException e) {
+            throw new INTERNAL_SERVER_ERROR("Int parsing failed while updating match score");
+        }
+        try {
+            matchUUID = UUID.fromString(uuid);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new BAD_REQUEST("Invalid request format");
+        }
+        MATCH_SCORE_CALCULATION_SERVICE.processPoint(matchUUID, playerId);
+    }
+
+    /* <Pagination>
     public Page getMatchesByPage(int pageNum) {
         return FINISHED_MATCHES_PERSISTENCE_SERVICE.getFinishedMatchesByPage(pageNum);
     }
     public Page getMatchesByPlayerName(int pageNum, String name) {
         return FINISHED_MATCHES_PERSISTENCE_SERVICE.getFinishedMatchesByPlayerName(pageNum, name);
     }
+    </Pagination> */
 }

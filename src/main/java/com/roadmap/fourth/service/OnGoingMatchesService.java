@@ -1,33 +1,30 @@
 package com.roadmap.fourth.service;
 
+import com.roadmap.fourth.dto.MatchScoreDTO;
 import com.roadmap.fourth.exception.NOT_FOUND;
-import com.roadmap.fourth.model.MatchScore;
+import com.roadmap.fourth.model.TennisMatchModel;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OnGoingMatchesService {
-    private HashMap<UUID, MatchScore> matches = new HashMap<>();
+    private static ConcurrentHashMap<UUID, TennisMatchModel> matches = new ConcurrentHashMap<>();
 
-    public UUID createMatchUUID(String stPlayerName, String ndPlayerName) {
-        NewMatchService nMS = new NewMatchService();
-        MatchScore mS = nMS.createMatch(stPlayerName, ndPlayerName);
-
-        UUID uuid = UUID.randomUUID();
-        mS.setMatchUUID(uuid);
-        matches.put(uuid, mS);
-
-        return uuid;
+    public MatchScoreDTO createActiveMatch(String stPlayerName, String ndPlayerName) {
+        UUID newMatchUUID = UUID.randomUUID();
+        TennisMatchModel newActiveMatch = new TennisMatchModel(stPlayerName, ndPlayerName, newMatchUUID);
+        matches.put(newMatchUUID, newActiveMatch);
+        return newActiveMatch.buildMatchScoreDTO();
     }
-    public void setMatch(UUID uuid, MatchScore match) {
+    public void updateMatchScore(UUID uuid, TennisMatchModel match) {
         matches.replace(uuid, match);
     }
-    public MatchScore getMatch(UUID uuid) {
+    public TennisMatchModel getMatchByUUID(UUID uuid) {
         if (matches.isEmpty() || matches.get(uuid) == null) {
             throw new NOT_FOUND("Match not found, please go back to homepage");
         } else return matches.get(uuid);
     }
-    public void removeMatch(UUID uuid) {
+    public void removeActiveMatch(UUID uuid) {
         matches.remove(uuid);
     }
 }
