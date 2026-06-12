@@ -27,8 +27,4 @@ public class TennisMatchModel {
         }
         return matchScore.awardPointTo(id, opponentId);
     }
-
-    public String getPlayerName(int id) {
-        return PLAYERS[id];
-    }
 }
