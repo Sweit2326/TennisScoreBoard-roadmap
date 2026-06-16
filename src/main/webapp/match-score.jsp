@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <html>
 <head>
@@ -37,44 +38,68 @@
         <h1>Current match</h1>
         <div class="current-match-image"></div>
         <section class="score">
-            <table class="table">
-                <thead class="result">
-                <tr>
-                    <th class="table-text">Player</th>
-                    <th class="table-text">Sets</th>
-                    <th class="table-text">Games</th>
-                    <th class="table-text">Points</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="player1">
-                    <td class="table-text">${match.getPlayerName(0)}</td>
-                    <td class="table-text">${match.getSets(0)}</td>
-                    <td class="table-text">${match.getGames(0)}</td>
-                    <td class="table-text">${match.getPoints(0)}</td>
-                    <td class="table-text">
-                        <form method="post" action="match-score">
-                            <input type="hidden" name="playerID" value="0">
-                            <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
-                            <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
-                        </form>
-                    </td>
-                </tr>
-                <tr class="player2">
-                    <td class="table-text">${match.getPlayerName(1)}</td>
-                    <td class="table-text">${match.getSets(1)}</td>
-                    <td class="table-text">${match.getGames(1)}</td>
-                    <td class="table-text">${match.getPoints(1)}</td>
-                    <td class="table-text">
-                        <form method="post" action="match-score">
-                            <input type="hidden" name="playerID" value="1">
-                            <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
-                            <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <c:choose>
+                <c:when test="${match.winner != null}">
+                    <table class="table">
+                        <thead class="result">
+                        <tr>
+                            <th class="table-text">Player</th>
+                            <th class="table-text">Sets</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="player1">
+                            <td class="table-text">${match.getPlayerName(0)}</td>
+                            <td class="table-text">${match.getSets(0)}</td>
+                        </tr>
+                        <tr class="player2">
+                            <td class="table-text">${match.getPlayerName(1)}</td>
+                            <td class="table-text">${match.getSets(1)}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <table class="table">
+                        <thead class="result">
+                        <tr>
+                            <th class="table-text">Player</th>
+                            <th class="table-text">Sets</th>
+                            <th class="table-text">Games</th>
+                            <th class="table-text">Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="player1">
+                            <td class="table-text">${match.getPlayerName(0)}</td>
+                            <td class="table-text">${match.getSets(0)}</td>
+                            <td class="table-text">${match.getGames(0)}</td>
+                            <td class="table-text">${match.getPoints(0)}</td>
+                            <td class="table-text">
+                                <form method="post" action="match-score">
+                                    <input type="hidden" name="playerID" value="0">
+                                    <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
+                                    <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="player2">
+                            <td class="table-text">${match.getPlayerName(1)}</td>
+                            <td class="table-text">${match.getSets(1)}</td>
+                            <td class="table-text">${match.getGames(1)}</td>
+                            <td class="table-text">${match.getPoints(1)}</td>
+                            <td class="table-text">
+                                <form method="post" action="match-score">
+                                    <input type="hidden" name="playerID" value="1">
+                                    <input type="hidden" name="matchUUID" value="${match.getMatchUUID()}">
+                                    <div class="score-btn" onclick="this.closest('form').submit()">Score</div>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </c:otherwise>
+            </c:choose>
         </section>
     </div>
 </main>
