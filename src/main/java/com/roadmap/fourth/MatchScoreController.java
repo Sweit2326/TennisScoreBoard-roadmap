@@ -23,7 +23,7 @@ public class MatchScoreController {
         }
     }
 
-    public void updateMatchScore(String uuid, String id) {
+    public MatchScoreDTO updateMatchScore(String uuid, String id) {
         final MatchScoreCalculationService MATCH_SCORE_CALCULATION_SERVICE = new MatchScoreCalculationService();
         final int playerId;
         final UUID matchUUID;
@@ -38,7 +38,7 @@ public class MatchScoreController {
         } catch (IllegalArgumentException | NullPointerException e) {
             throw new BAD_REQUEST("Invalid request format");
         }
-        MATCH_SCORE_CALCULATION_SERVICE.processPoint(matchUUID, playerId);
+        return MATCH_SCORE_CALCULATION_SERVICE.processPoint(matchUUID, playerId);
     }
 
     /* <Pagination>
