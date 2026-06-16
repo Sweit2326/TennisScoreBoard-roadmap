@@ -4,7 +4,6 @@ import com.roadmap.fourth.MatchScoreController;
 import com.roadmap.fourth.dto.MatchScoreDTO;
 import com.roadmap.fourth.exception.BAD_REQUEST;
 import com.roadmap.fourth.exception.INTERNAL_SERVER_ERROR;
-import com.roadmap.fourth.model.MatchScoreModel;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @WebServlet(name = "MatchScoreServlet", urlPatterns = {"/match-score", "/new-match"})
 public class MatchScoreServlet extends HttpServlet {
@@ -25,7 +23,6 @@ public class MatchScoreServlet extends HttpServlet {
             req.setAttribute("match", matchDTO);
             req.getRequestDispatcher("/match-score.jsp").forward(req, resp);
         } catch (ServletException e) {
-            e.printStackTrace();
             throw new INTERNAL_SERVER_ERROR("Failed to load match page");
         }
     }
@@ -46,8 +43,11 @@ public class MatchScoreServlet extends HttpServlet {
         } else if (servletPath.equals("/match-score")) {
             final String playerId = req.getParameter("playerID");
             final String matchUUID = req.getParameter("matchUUID");
-            MATCH_SCORE_CONTROLLER.updateMatchScore(matchUUID, playerId);
-            resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchUUID);
+            MatchScoreDTO matchDTO = MATCH_SCORE_CONTROLLER.updateMatchScore(matchUUID, playerId);
+            if (matchDTO.getWinner() != null) {
+                req.setAttribute("match", matchDTO);
+                req.getRequestDispatcher("/match-score.jsp").forward(req, resp);
+            } else resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + matchUUID);
         }
     }
 }
