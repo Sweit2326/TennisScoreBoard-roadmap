@@ -9,18 +9,35 @@ import java.util.List;
 import static com.roadmap.fourth.util.HibernateUtil.getSessionFactory;
 
 public class MatchDao {
-    public Match getMatchById(int id) {
+    public int getMatchesCount() {
         Session session = getSessionFactory().getCurrentSession();
-        return session.find(Match.class, id);
+        return Math.toIntExact(session.createQuery("SELECT COUNT(m) FROM Match m").getResultCount());
     }
-    public List<Match> getMatchesByPlayerName(String name) {
+
+    public int getMatchesCountByPlayerName(String name) {
+        Session session = getSessionFactory().getCurrentSession();
+        return Math.toIntExact(session.createQuery("SELECT COUNT(m) FROM Match m WHERE player1.name = :name OR player2.name = :name ORDER BY id").getResultCount());
+    }
+
+    public List<Match> getMatchesOnPage(int offset, int limit) {
         Session session = getSessionFactory().getCurrentSession();
 
-        List<Match> matches = session.createQuery("FROM Match WHERE player1.name = :name OR player2.name = :name ORDER BY id", Match.class)
-                .setParameter("name", name)
+        return session.createQuery("FROM Match ORDER BY id", Match.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
-        return matches;
     }
+
+    public List<Match> getMatchesByPlayerName(int offset, int limit, String name) {
+        Session session = getSessionFactory().getCurrentSession();
+
+        return session.createQuery("FROM Match WHERE player1.name = :name OR player2.name = :name ORDER BY id", Match.class)
+                .setParameter("name", name)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
     public void postMatch(MatchScoreDTO matchDTO) {
         PlayerDao plDao = new PlayerDao();
         Session session = getSessionFactory().getCurrentSession();
