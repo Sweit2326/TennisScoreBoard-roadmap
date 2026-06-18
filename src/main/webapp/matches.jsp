@@ -51,38 +51,42 @@
                 <th>Winner</th>
             </tr>
             <tr>
+                <td>${page.getPlayerName(0, 0)}</td>
+                <td>${page.getPlayerName(0, 1)}</td>
+                <td><span class="winner-name-td">${page.getPlayerName(0, 2)}</span></td>
+            </tr>
+            <tr>
                 <td>${page.getPlayerName(1, 0)}</td>
                 <td>${page.getPlayerName(1, 1)}</td>
-                <td><span class="winner-name-td">${page.getWinnerName(1)}</span></td>
+                <td><span class="winner-name-td">${page.getPlayerName(1, 2)}</span></td>
             </tr>
             <tr>
                 <td>${page.getPlayerName(2, 0)}</td>
                 <td>${page.getPlayerName(2, 1)}</td>
-                <td><span class="winner-name-td">${page.getWinnerName(2)}</span></td>
+                <td><span class="winner-name-td">${page.getPlayerName(2, 2)}</span></td>
             </tr>
             <tr>
                 <td>${page.getPlayerName(3, 0)}</td>
                 <td>${page.getPlayerName(3, 1)}</td>
-                <td><span class="winner-name-td">${page.getWinnerName(3)}</span></td>
+                <td><span class="winner-name-td">${page.getPlayerName(3, 2)}</span></td>
             </tr>
             <tr>
                 <td>${page.getPlayerName(4, 0)}</td>
                 <td>${page.getPlayerName(4, 1)}</td>
-                <td><span class="winner-name-td">${page.getWinnerName(4)}</span></td>
-            </tr>
-            <tr>
-                <td>${page.getPlayerName(5, 0)}</td>
-                <td>${page.getPlayerName(5, 1)}</td>
-                <td><span class="winner-name-td">${page.getWinnerName(5)}</span></td>
+                <td><span class="winner-name-td">${page.getPlayerName(4, 2)}</span></td>
             </tr>
         </table>
 
         <div class="pagination">
-            <a class="prev" href="matches?page=${page.getPrevPageNumber()}" style="display: ${page.getPrevPageNumber() <= 0 ? 'none' : 'inline-block'};"> < </a>
-            <a class="num-page" href="matches?page=${page.getPrevPageNumber()}" style="display: ${page.getPrevPageNumber() <= 0 ? 'none' : 'inline-block'};">${page.getPrevPageNumber()}</a>
-            <a class="num-page current" href="matches?page=${page.getPageNumber()}">${page.getPageNumber()}</a>
-            <a class="num-page" href="matches?page=${page.getNextPageNumber()}" style="display: ${page.isNextPageAvailable() ? 'inline-block' : 'none'};">${page.getNextPageNumber()}</a>
-            <a class="next" href="matches?page=${page.getNextPageNumber()}" style="display: ${page.isNextPageAvailable() ? 'inline-block' : 'none'};"> > </a>
+            <a class="prev" href="matches?page=${page.getReqPage()-1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= 2 ? 'inline-block' : 'none'};"> < </a>
+            <a class="num-page" href="matches?page=1&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() == 1 ? 'none' : 'inline-block'};"> 1 </a>
+            <a class="num-page" style="display: ${page.getStartPage() <=2 ? 'none' : 'inline-block'};"> ... </a>
+            <a class="num-page" href="matches?page=${page.getStartPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getStartPage() == 1 ? 'none' : 'inline-block'};"> ${page.getStartPage()} </a>
+            <a class="num-page current"> ${page.getReqPage()} </a>
+            <a class="num-page" href="matches?page=${page.getEndPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getEndPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getEndPage()} </a>
+            <a class="num-page" style="display: ${page.getEndPage() >= page.getTotalPages()-1 ? 'none' : 'inline-block'};"> ... </a>
+            <a class="num-page" href="matches?page=${page.getTotalPages()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getTotalPages()} </a>
+            <a class="next" href="matches?page=${page.getReqPage()+1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> > </a>
         </div>
     </div>
 </main>
