@@ -16,25 +16,25 @@ public class MatchDao {
 
     public int getMatchesCountByPlayerName(String name) {
         Session session = getSessionFactory().getCurrentSession();
-        return Math.toIntExact(session.createQuery("SELECT COUNT(m) FROM Match m WHERE player1.name = :name OR player2.name = :name ORDER BY id").getResultCount());
+        return Math.toIntExact(session.createQuery("SELECT COUNT(m) FROM Match m WHERE player1.name = :name OR player2.name = :name ORDER BY id").setParameter("name", name).getResultCount());
     }
 
-    public List<Match> getMatchesOnPage(int offset, int limit) {
+    public List<Match> getMatchesOnPage(int offset) {
         Session session = getSessionFactory().getCurrentSession();
 
         return session.createQuery("FROM Match ORDER BY id", Match.class)
                 .setFirstResult(offset)
-                .setMaxResults(limit)
+                .setMaxResults(5)
                 .getResultList();
     }
 
-    public List<Match> getMatchesByPlayerName(int offset, int limit, String name) {
+    public List<Match> getMatchesByPlayerName(int offset, String name) {
         Session session = getSessionFactory().getCurrentSession();
 
         return session.createQuery("FROM Match WHERE player1.name = :name OR player2.name = :name ORDER BY id", Match.class)
                 .setParameter("name", name)
                 .setFirstResult(offset)
-                .setMaxResults(limit)
+                .setMaxResults(5)
                 .getResultList();
     }
 
