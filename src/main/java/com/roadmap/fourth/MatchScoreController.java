@@ -58,9 +58,6 @@ public class MatchScoreController {
         } catch (NumberFormatException | NullPointerException e) {
             throw new BAD_REQUEST("Invalid request format:" + pageNum);
         }
-        if (name == null || name.trim().isEmpty()) {
-            throw new BAD_REQUEST("Invalid request format: " + name);
-        }
 
         return FINISHED_MATCHES_PERSISTENCE_SERVICE.getFinishedMatchesByPlayerName(pageNumber, name);
     }
