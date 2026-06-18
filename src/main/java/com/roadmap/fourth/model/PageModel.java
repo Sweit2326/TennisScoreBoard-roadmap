@@ -15,8 +15,8 @@ public class PageModel {
     }
 
     public PageDTO buildPageDTO() {
-        int startPage = Math.max(1, Math.min(reqPage - 1, totalPages - 2));
-        int endPage = Math.min(totalPages, Math.max(reqPage + 1, 3));
+        int startPage = Math.max(1, reqPage - 1);
+        int endPage = Math.min(totalPages, reqPage + 1);
         int[] pagesData = {reqPage, totalPages, startPage, endPage};
 
         return new PageDTO(matches, pagesData);
