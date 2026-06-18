@@ -34,7 +34,10 @@ public class PaginationServlet extends HttpServlet {
         if (servletPath.equals("/matches")) {
             String pageNum = req.getParameter("page");
             String playerName = req.getParameter("filter_by_player_name");
-            if (playerName != null) {
+            if (pageNum == null) {
+                pageNum = "1";
+            }
+            if (playerName != null && !playerName.isBlank()) {
                 resp.sendRedirect(req.getContextPath() + "/matches?page=" + pageNum + "&filter_by_player_name=" + playerName);
             } else {
                 resp.sendRedirect(req.getContextPath() + "/matches?page=" + pageNum);
