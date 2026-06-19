@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <html>
@@ -78,15 +79,30 @@
         </table>
 
         <div class="pagination">
-            <a class="prev" href="matches?page=${page.getReqPage()-1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= 2 ? 'inline-block' : 'none'};"> < </a>
-            <a class="num-page" href="matches?page=1&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() == 1 ? 'none' : 'inline-block'};"> 1 </a>
-            <a class="num-page" style="display: ${page.getStartPage() <=2 ? 'none' : 'inline-block'};"> ... </a>
-            <a class="num-page" href="matches?page=${page.getStartPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getStartPage() == 1 ? 'none' : 'inline-block'};"> ${page.getStartPage()} </a>
-            <a class="num-page current"> ${page.getReqPage()} </a>
-            <a class="num-page" href="matches?page=${page.getEndPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getEndPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getEndPage()} </a>
-            <a class="num-page" style="display: ${page.getEndPage() >= page.getTotalPages()-1 ? 'none' : 'inline-block'};"> ... </a>
-            <a class="num-page" href="matches?page=${page.getTotalPages()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getTotalPages()} </a>
-            <a class="next" href="matches?page=${page.getReqPage()+1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> > </a>
+            <c:choose>
+                <c:when test="${not empty param.filter_by_player_name}">
+                    <a class="prev" href="matches?page=${page.getReqPage()-1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= 2 ? 'inline-block' : 'none'};"> < </a>
+                    <a class="num-page" href="matches?page=1&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() == 1 ? 'none' : 'inline-block'};"> 1 </a>
+                    <a class="num-page" style="display: ${page.getStartPage() <=2 ? 'none' : 'inline-block'};"> ... </a>
+                    <a class="num-page" href="matches?page=${page.getStartPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getStartPage() == 1 ? 'none' : 'inline-block'};"> ${page.getStartPage()} </a>
+                    <a class="num-page current"> ${page.getReqPage()} </a>
+                    <a class="num-page" href="matches?page=${page.getEndPage()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getEndPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getEndPage()} </a>
+                    <a class="num-page" style="display: ${page.getEndPage() >= page.getTotalPages()-1 ? 'none' : 'inline-block'};"> ... </a>
+                    <a class="num-page" href="matches?page=${page.getTotalPages()}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getTotalPages()} </a>
+                    <a class="next" href="matches?page=${page.getReqPage()+1}&filter_by_player_name=${param['filter_by_player_name']}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> > </a>
+                </c:when>
+                <c:otherwise>
+                    <a class="prev" href="matches?page=${page.getReqPage()-1}" style="display: ${page.getReqPage() >= 2 ? 'inline-block' : 'none'};"> < </a>
+                    <a class="num-page" href="matches?page=1" style="display: ${page.getReqPage() == 1 ? 'none' : 'inline-block'};"> 1 </a>
+                    <a class="num-page" style="display: ${page.getStartPage() <=2 ? 'none' : 'inline-block'};"> ... </a>
+                    <a class="num-page" href="matches?page=${page.getStartPage()}" style="display: ${page.getStartPage() == 1 ? 'none' : 'inline-block'};"> ${page.getStartPage()} </a>
+                    <a class="num-page current"> ${page.getReqPage()} </a>
+                    <a class="num-page" href="matches?page=${page.getEndPage()}" style="display: ${page.getEndPage() == page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getEndPage()} </a>
+                    <a class="num-page" style="display: ${page.getEndPage() >= page.getTotalPages()-1 ? 'none' : 'inline-block'};"> ... </a>
+                    <a class="num-page" href="matches?page=${page.getTotalPages()}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> ${page.getTotalPages()} </a>
+                    <a class="next" href="matches?page=${page.getReqPage()+1}" style="display: ${page.getReqPage() >= page.getTotalPages() ? 'none' : 'inline-block'};"> > </a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </main>
