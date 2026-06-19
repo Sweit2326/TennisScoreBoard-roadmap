@@ -1,7 +1,5 @@
 package com.roadmap.fourth;
 
-import com.roadmap.fourth.exception.BAD_REQUEST;
-import com.roadmap.fourth.exception.NOT_FOUND;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
